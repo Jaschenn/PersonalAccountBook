@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:49161:XE</property>
+        <property name="hibernate.connection.username">jasmine</property>
+        <property name="connection.password">oracle</property>
+
+        <!--配置hibernate信息，可选的-->
+        <property name="hibernate.show_sql">true</property>
+
+        <property name="hibernate.format_sql">true</property>
+
+        <!--hibernate可以帮助我们创建表格，但是需要配置之后-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
+        <!--数据库配置方言，比如分页limit，只能使用在mysql中。但是在oracle中使用的是rownum。这个配置让-->
+        <!--hibernate识别不同数据库特有的语句 -->
+
+        <mapping resource="entity/Account.hbm.xml"></mapping>
+        <mapping resource="entity/Expenses.hbm.xml"></mapping>
+    </session-factory>
+</hibernate-configuration>
