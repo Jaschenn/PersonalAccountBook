@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="PBA:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/PBA_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="PBA/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="PBA" />
+          <element id="library" level="project" name="apache-tomcat-9.0" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/lib/ojdbc8.jar" />
+          <element id="library" level="project" name="Hibernate 5.3.2-5.3.2" />
+          <element id="library" level="module" name="JUnit5.0" module-name="PBA" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/jaxb-impl-2.3.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/jaxb-core-2.3.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/jaxb-api-2.3.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/javax.activation-1.2.0.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
