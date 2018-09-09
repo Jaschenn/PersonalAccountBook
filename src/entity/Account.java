@@ -5,6 +5,14 @@ public class Account {
     private double balance;         //余额
     private String accountname;     //账户名称
 
+    public Account() {
+    }
+
+    public Account(double balance, String accountname) {
+        this.balance = balance;
+        this.accountname = accountname;
+    }
+
     public String getUuid() {
         return uuid;
     }
