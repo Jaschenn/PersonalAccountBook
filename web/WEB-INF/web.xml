@@ -7,4 +7,8 @@
         <servlet-name>AccountServlet</servlet-name>
         <servlet-class>servlet.AccountServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>AccountServlet</servlet-name>
+        <url-pattern>/AccountServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

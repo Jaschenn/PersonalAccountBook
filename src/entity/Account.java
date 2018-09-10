@@ -4,7 +4,6 @@ public class Account {
     private String uuid;            //唯一标志
     private double balance;         //余额
     private String accountname;     //账户名称
-
     public Account() {
     }
 

@@ -22,6 +22,15 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
+<script type="javascript" src="../lib/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#ButtonsubmitAccount").click(function () {
+            $("#FormAccount").submit();
+        })
+    })
+
+</script>
 <div class="container-fluid">
     <div class="row clearfix">
         <div class="col-md-12 column">
@@ -105,10 +114,41 @@
     </div>
     <div class="container-fluid">
     <div class="row">
+        <!--最左侧的账户部分 -->
         <div class="col-md-2 column">
             <h2>
                 账户
             </h2>
+            <a id="modal-15680" href="#modal-container-15680" role="button" class="btn" data-toggle="modal">添加账户</a>
+            <!-- modal层部分-->
+            <div class="modal fade" id="modal-container-15680" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">
+                               添加账户
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                           <form action="AccountServlet?AccountMethod=saveAccount" id="FormAccount" method="post">
+                               <div class="form-group">
+                               <label for="InputAccountName"> 账户名称：</label>
+                                <input  class="form-control" type="text" id="InputAccountName" name="InputAccountName">
+                               <label for="InputBalance">  初始余额：</label>
+                                <input  class="form-control" type="number" id="InputBalance" name="InputBalance">
+                               </div>
+                           </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary" id="ButtonsubmitAccount">保存</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
             <button type="button" class="btn btn-primary" data-toggle="collapse"
                     data-target="#alipay">
                支付宝
@@ -118,7 +158,6 @@
                 cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
                 vice lomo.
             </div>
-            <button class="btn btn-primary">增加</button>
 
         </div>
         <!-- 中间的核心部分-->
@@ -193,28 +232,7 @@
                 <div class="progress-bar progress-success">
                 </div>
             </div>
-            <a id="modal-15680" href="#modal-container-15680" role="button" class="btn" data-toggle="modal">触发遮罩窗体</a>
 
-            <div class="modal fade" id="modal-container-15680" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" id="myModalLabel">
-                                标题
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            内容...
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button> <button type="button" class="btn btn-primary">保存</button>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
         </div>
     </div>
     </div>
