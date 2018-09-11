@@ -5,6 +5,7 @@
   Time: 下午4:44
   To change this template use File | Settings | File Templates.
 --%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,13 +23,50 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<script type="javascript" src="../lib/jquery.js"></script>
+<script type="javascript" src="/webLib/jquery.form.js"></script>
 <script>
+    //点击保存按钮，添加账户
     $(document).ready(function () {
+        //获取所有的账户
+        $.ajax({
+            url:"AccountServlet?AccountMethod=loadAccount",
+            dataType:"json",
+            type:"post",
+            success:function (data) {
+                alert("加载成功");
+
+                var jsondata=eval(data);
+                var html='';
+                $.each(jsondata,function (index) {
+                    //循环获取数据
+                    var accountname=jsondata[index].accountname;
+                    var balance=jsondata[index].balance;
+                    var uuid=jsondata[index].uuid;
+                    html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
+                        "                    data-target=\"#"+uuid+"\">\n" +
+                        accountname +
+                        "            </button>\n" +
+                        "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
+                        balance +
+                        "            </div>";
+                    $("#accountList").html(html);
+                });
+
+            },
+        });
+
         $("#ButtonsubmitAccount").click(function () {
-            $("#FormAccount").submit();
-        })
-    })
+            alert("添加账户");
+         $.ajax({
+             url:"AccountServlet?AccountMethod=saveAccount",
+             dataType:"json",
+             type:"post",
+             success:function () {
+                 alert("发送成功");
+             }
+         })
+        });
+    });
 
 </script>
 <div class="container-fluid">
@@ -115,8 +153,8 @@
     <div class="container-fluid">
     <div class="row">
         <!--最左侧的账户部分 -->
-        <div class="col-md-2 column">
-            <h2>
+        <div class="col-md-2 column" id="accountPanel">
+            <h2 id="accuntTitle">
                 账户
             </h2>
             <a id="modal-15680" href="#modal-container-15680" role="button" class="btn" data-toggle="modal">添加账户</a>
@@ -149,14 +187,15 @@
                 </div>
 
             </div>
+
+            <div id="accountList">
             <button type="button" class="btn btn-primary" data-toggle="collapse"
                     data-target="#alipay">
-               支付宝
+               账户
             </button>
             <div id="alipay" class="collapse in">
-                Nihil anim keffiyeh helvetica, craft beer labore wes anderson
-                cred nesciunt sapiente ea proident. Ad vegan excepteur butcher
-                vice lomo.
+               账户明细
+            </div>
             </div>
 
         </div>

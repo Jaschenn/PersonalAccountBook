@@ -16,6 +16,9 @@
           <element id="file-copy" path="$PROJECT_DIR$/lib/jaxb-core-2.3.0.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/lib/jaxb-api-2.3.0.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/lib/javax.activation-1.2.0.jar" />
+          <element id="library" level="application" name="hibernate-core-5.3.2.Final" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/FileInAndOut2.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/fastjson-1.2.49.jar" />
         </element>
       </element>
     </root>

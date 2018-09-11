@@ -7,6 +7,15 @@ public class Account {
     public Account() {
     }
 
+    @Override
+    public String toString() {
+        return "Account{" +
+                "uuid='" + uuid + '\'' +
+                ", balance=" + balance +
+                ", accountname='" + accountname + '\'' +
+                '}';
+    }
+
     public Account(double balance, String accountname) {
         this.balance = balance;
         this.accountname = accountname;

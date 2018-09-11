@@ -21,7 +21,7 @@
         <!--数据库配置方言，比如分页limit，只能使用在mysql中。但是在oracle中使用的是rownum。这个配置让-->
         <!--hibernate识别不同数据库特有的语句 -->
 
-        <mapping resource="dao/Account.hbm.xml"></mapping>
-        <mapping resource="dao/Expenses.hbm.xml"></mapping>
+        <mapping resource="entity/Account.hbm.xml"></mapping>
+        <mapping resource="entity/Expenses.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>

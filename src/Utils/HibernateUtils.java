@@ -5,6 +5,7 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtils {
 
+
     static Configuration configuration=null;
     static SessionFactory sessionFactory=null;
     static {
