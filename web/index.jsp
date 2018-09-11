@@ -33,8 +33,6 @@
             dataType:"json",
             type:"post",
             success:function (data) {
-                alert("加载成功");
-
                 var jsondata=eval(data);
                 var html='';
                 $.each(jsondata,function (index) {
@@ -54,15 +52,46 @@
 
             },
         });
+        function loadAccount(){
+            $.ajax({
+                url:"AccountServlet?AccountMethod=loadAccount",
+                dataType:"json",
+                type:"post",
+                success:function (data) {
+                    var jsondata=eval(data);
+                    var html='';
+                    $.each(jsondata,function (index) {
+                        //循环获取数据
+                        var accountname=jsondata[index].accountname;
+                        var balance=jsondata[index].balance;
+                        var uuid=jsondata[index].uuid;
+                        html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
+                            "                    data-target=\"#"+uuid+"\">\n" +
+                            accountname +
+                            "            </button>\n" +
+                            "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
+                            balance +
+                            "            </div>";
+                        $("#accountList").html(html);
+                    });
 
+                },
+            });
+        };
         $("#ButtonsubmitAccount").click(function () {
             alert("添加账户");
+            var accountName=$("#InputAccountName").val();
+            var balance=$("#InputBalance").val();
          $.ajax({
              url:"AccountServlet?AccountMethod=saveAccount",
-             dataType:"json",
              type:"post",
+             data:{InputAccountName:accountName,InputBalance:balance},
              success:function () {
-                 alert("发送成功");
+               loadAccount();
+               $("#modal-container-15680").hidden;
+             },
+             error:function () {
+                 alert("error");
              }
          })
         });
@@ -180,7 +209,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="submit" class="btn btn-primary" id="ButtonsubmitAccount">保存</button>
+                            <button type="button" class="btn btn-primary" id="ButtonsubmitAccount">保存</button>
                         </div>
                     </div>
 

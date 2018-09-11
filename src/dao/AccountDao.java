@@ -26,7 +26,6 @@ public class AccountDao {
             System.out.println(e.getMessage());
         }finally {
             session.close();
-            sessionFactory.close();
         }
 
 

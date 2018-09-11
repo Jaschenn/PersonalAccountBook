@@ -1,6 +1,8 @@
 package entity;
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable,Cloneable {
     private String uuid;            //唯一标志
     private double balance;         //余额
     private String accountname;     //账户名称
@@ -42,6 +44,12 @@ public class Account {
     }
 
     public void setAccountname(String accountname) {
+        this.accountname = accountname;
+    }
+
+    public Account(String uuid, double balance, String accountname) {
+        this.uuid = uuid;
+        this.balance = balance;
         this.accountname = accountname;
     }
 }
