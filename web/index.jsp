@@ -10,20 +10,27 @@
 <html>
 <head>
     <title>Title</title>
+
+    <link href="webLib/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- 可选的Bootstrap主题文件（一般不使用） -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"></script>
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.js"></script>
+
+
+    <script src="webLib/datetimepicker/bootstrap-datetimepicker.js"></script>
+
+    <script src="webLib/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
+
+    <link href="webLib/datetimepicker/bootstrap-datetimepicker.css">
+
 </head>
 <body>
-<script type="javascript" src="/webLib/jquery.form.js"></script>
+
 <script>
     //点击保存按钮，添加账户
     $(document).ready(function () {
@@ -78,6 +85,39 @@
                 },
             });
         };
+        function loadExpenses(){
+            $.ajax({
+                url:"ExpensesServlet?ExpensesMethod=loadExpenses",
+                dataType:"json",
+                type:"post",
+                success:function (data) {
+                    var jsondata=eval(data);
+                    var html='';
+                    $.each(jsondata,function (index) {
+                        //循环获取数据
+                        var amount=jsondata[index].amount;
+                        var time=jsondata[index].time;
+                        var type=jsondata[index].type;
+                        var account=jsondata[index].account;
+                        var introduction=jsondata[index].introduction;
+                        html=html+"  <tr>\n" +
+                            "                                    <td>"+amount+"</td>\n" +
+                            "                                    <td>"+time+"</td>\n" +
+                            "                                    <td>"+type+"</td>\n" +
+                            "                                    <td>"+account+"</td>\n" +
+                            "                                    <td>"+introduction+"</td>\n" +
+                            "                                </tr>";
+                        $("#expensesdataTable").append(html);
+                    });
+                }
+                
+                
+                
+            })
+        };
+        $(document).ready(function () {
+            loadExpenses();
+        })
         $("#ButtonsubmitAccount").click(function () {
             alert("添加账户");
             var accountName=$("#InputAccountName").val();
@@ -99,6 +139,7 @@
 
 </script>
 <div class="container-fluid">
+    <!--导航栏 -->
     <div class="row clearfix">
         <div class="col-md-12 column">
             <nav class="navbar navbar-default" role="navigation">
@@ -249,23 +290,21 @@
                         </p>
                     </div>
                     <div class="tab-pane" id="panel-701707">
-                        <form role="form">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label><input type="email" class="form-control" id="exampleInputEmail1" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label><input type="password" class="form-control" id="exampleInputPassword1" />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputFile">File input</label><input type="file" id="exampleInputFile" />
-                                <p class="help-block">
-                                    Example block-level help text here.
-                                </p>
-                            </div>
-                            <div class="checkbox">
-                                <label><input type="checkbox" />Check me out</label>
-                            </div> <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
+                       <!--支出表格，循环添加 -->
+                        <table class="table table-striped" id="expensesTable">
+                            <thead>
+                                <tr>
+                                    <th>金额</th>
+                                    <th>时间</th>
+                                    <th>种类</th>
+                                    <th>付款账户</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expensesdataTable">
+
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="panel-77077">
                         <p>
@@ -284,6 +323,68 @@
         </div>
         <!--    右侧的预测部分  -->
         <div class="col-md-4 column">
+            <div id="calendar">
+                <form action="ExpensesServlet?ExpensesMethod=saveExpenses">
+                    <div class="form-group">
+                        <label for="expensesTime"> 消费时间：</label>
+                        <div class="input-append date form_datetime" data-date="2018-02-21T15:25:00Z">
+                        <input class="form-control"  id="expensesTime" name="expensesTime" readonly>
+                        <span class="add-on"><i class="icon-th"></i></span>
+                        </div>
+                            <label for="expensesAccount">  账户：</label>
+                        <input  class="form-control" type="text" id="expensesAccount" name="expensesAccount">
+                        <label for="expensesAmount">  金额：</label>
+                        <input  class="form-control" type="number" id="expensesAmount" name="expensesAmount">
+                        <label for="expensesType">  种类：</label>
+                        <input  class="form-control" type="text" id="expensesType" name="expensesType">
+                        <label for="expensesType">  注释：</label>
+                        <input  class="form-control" type="text" id="introduction" name="introduction">
+                        <br>
+                        <button class="btn-primary" type="button" id="expensesSubmit" name="expensesSubmit">let bills fly</button>
+                    </div>
+                </form>
+            </div>
+            <script>
+                $("#expensesTime").datetimepicker({
+
+                    format: "yyyy-mm-dd hh:ii:ss",
+                    language:'zh-CN',
+                    weekSrart:1,
+                    autoclose: true,
+                    todayBtn: true,
+                    pickerPosition: "bottom-left",
+                    todayHighlight:true
+                })
+            </script>
+            <script>
+                $(document).ready(function () {
+                    $("#expensesSubmit").click(function () {
+                        var time=$("#expensesTime").val();
+                        var type=$("#expensesType").val();
+                        var amount=$("#expensesAmount").val();
+                        var account=$("#expensesAccount").val();
+                        var introduction="说明";
+
+                        $.ajax({
+                            url:"ExpensesServlet?ExpensesMethod=saveExpenses",
+                            data:{expensesTime:time,expensesAccount:account,expensesAmount:amount,expensesType:type,introduction:introduction},
+                            success:function () {
+                                alert("保存消费成功");
+                            },
+                            error:function () {
+                                alert("保存消费失败");
+                            }
+                        })
+
+                    })
+
+                })
+
+
+
+
+
+            </script>
             <ul class="nav nav-pills">
                 <li class="active">
                     <a href="#"> <span class="badge pull-right">42</span> Home</a>

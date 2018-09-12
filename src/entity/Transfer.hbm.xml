@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="entity.Transfer" table="Transfer">
+        <id name="uuid" column="uuid">
+            <generator class="uuid2"></generator>
+        </id>
+        <property name="date" column="t_date"></property>
+        <property name="fromAccount" column="t_fromAccount"></property>
+        <property name="toAccount" column="t_toaccount"></property>
+        <property name="number" column="t_number"></property>
+    </class>
+</hibernate-mapping>

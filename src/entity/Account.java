@@ -1,21 +1,14 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Account implements Serializable,Cloneable {
     private String uuid;            //唯一标志
     private double balance;         //余额
     private String accountname;     //账户名称
-    public Account() {
-    }
 
-    @Override
-    public String toString() {
-        return "Account{" +
-                "uuid='" + uuid + '\'' +
-                ", balance=" + balance +
-                ", accountname='" + accountname + '\'' +
-                '}';
+    public Account() {
     }
 
     public Account(double balance, String accountname) {
@@ -44,12 +37,6 @@ public class Account implements Serializable,Cloneable {
     }
 
     public void setAccountname(String accountname) {
-        this.accountname = accountname;
-    }
-
-    public Account(String uuid, double balance, String accountname) {
-        this.uuid = uuid;
-        this.balance = balance;
         this.accountname = accountname;
     }
 }

@@ -11,5 +11,6 @@
         <property name="amount" column="t_amount"></property>
         <property name="time" column="t_time"></property>
         <property name="introduction" column="t_introduction"></property>
+        <property name="type" column="t_type"></property>
     </class>
 </hibernate-mapping>

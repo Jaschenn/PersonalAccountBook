@@ -1,8 +1,10 @@
 package entity;
 
+import java.util.Date;
+
 public class Expenses {
     private String uid;     //唯一索引 （主键）
-    private String time;    //时间
+    private Date time;    //时间
     private double amount;  //价格
     private String type;    //支出种类
     private String account; //付款账户
@@ -27,8 +29,7 @@ public class Expenses {
                 '}';
     }
 
-    public Expenses(String uid, String time, double amount, String type, String account, boolean status, String introduction) {
-        this.uid = uid;
+    public Expenses(Date time, double amount, String type, String account, boolean status, String introduction) {
         this.time = time;
         this.amount = amount;
         this.type = type;
@@ -45,11 +46,11 @@ public class Expenses {
         this.uid = uid;
     }
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

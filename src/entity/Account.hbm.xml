@@ -9,7 +9,6 @@
         </id>
         <property name="accountname" column="accountname"></property>
         <property name="balance" column="balance"></property>
-
     </class>
 
 </hibernate-mapping>

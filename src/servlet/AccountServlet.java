@@ -17,18 +17,12 @@ public class AccountServlet extends javax.servlet.http.HttpServlet {
         if ("saveAccount".equals(AccountMethod)){
             saveAccount(request,response);
         }else if ("loadAccount".equals(AccountMethod)){
-
-            ArrayList<Account> arrayList = loadAccount();
-
-            String str = JSON.toJSONString(arrayList);
-
+            String AccountData = loadAccount();
             response.setCharacterEncoding("UTF-8");
-
             PrintWriter out = response.getWriter();
-            out.print(str);
+            out.print(AccountData);
             out.flush();
-
-            System.out.println(str);
+            System.out.println(AccountData);
 
         }
 
@@ -55,11 +49,13 @@ public class AccountServlet extends javax.servlet.http.HttpServlet {
         System.out.println("开始删除数据");
     }
 
-    public ArrayList<Account> loadAccount(){
+    public String loadAccount(){
         AccountDao accountDao=new AccountDao();
         ArrayList<Account> accounts=null;
         accounts=accountDao.loadAccount();
-        return accounts;
+        String str = JSON.toJSONString(accounts);
+
+        return str;
     }
 
 

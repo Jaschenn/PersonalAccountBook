@@ -23,5 +23,6 @@
 
         <mapping resource="entity/Account.hbm.xml"></mapping>
         <mapping resource="entity/Expenses.hbm.xml"></mapping>
+        <mapping resource="entity/Transfer.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>
