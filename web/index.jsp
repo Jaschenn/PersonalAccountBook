@@ -30,141 +30,6 @@
 
 </head>
 <body>
-
-<script>
-    //点击保存按钮，添加账户
-    $(document).ready(function () {
-        //获取所有的账户
-        $.ajax({
-            url:"AccountServlet?AccountMethod=loadAccount",
-            dataType:"json",
-            type:"post",
-            success:function (data) {
-                var jsondata=eval(data);
-                var html='';
-                $.each(jsondata,function (index) {
-                    //循环获取数据
-                    var accountname=jsondata[index].accountname;
-                    var balance=jsondata[index].balance;
-                    var uuid=jsondata[index].uuid;
-                    html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
-                        "                    data-target=\"#"+uuid+"\">\n" +
-                        accountname +
-                        "            </button>\n" +
-                        "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
-                        balance +
-                        "            </div>";
-                    $("#accountList").html(html);
-                });
-                var htmllist="";
-                $.each(data, function(index, item) {
-                    var accountname=data[index].accountname;
-                    //此处向select中循环绑定数据
-                    htmllist=htmllist+"<option value="+accountname+">" + accountname+ "</option>"
-                });
-                $("#expensesAccount").html(htmllist);
-                loadExpenses();
-                loadAccount();
-
-            },
-        });
-
-
-
-        $(document).ready(function () {
-            loadExpenses();
-        })
-        $("#ButtonsubmitAccount").click(function () {
-            var accountName=$("#InputAccountName").val();
-            var balance=$("#InputBalance").val();
-         $.ajax({
-             url:"AccountServlet?AccountMethod=saveAccount",
-             type:"post",
-             data:{InputAccountName:accountName,InputBalance:balance},
-             success:function () {
-               loadAccount();
-               $("#modal-container-15680").modal('hide');
-             },
-             error:function () {
-                 alert("error");
-             }
-         })
-        });
-    });
-    function loadExpenses(){
-        $.ajax({
-            url:"ExpensesServlet?ExpensesMethod=loadExpenses",
-            dataType:"json",
-            type:"post",
-            success:function (data) {
-                var jsondata=eval(data);
-                var html='';
-                $.each(jsondata,function (index) {
-                    //循环获取数据
-                    var amount=jsondata[index].amount;
-                    var time=jsondata[index].time;
-                    var type=jsondata[index].type;
-                    var account=jsondata[index].account;
-                    var introduction=jsondata[index].introduction;
-                    html=html+"  <tr>\n" +
-                        "                                    <td>"+amount+"</td>\n" +
-                        "                                    <td>"+time+"</td>\n" +
-                        "                                    <td>"+type+"</td>\n" +
-                        "                                    <td>"+account+"</td>\n" +
-                        "                                    <td>"+introduction+"</td>\n" +
-                        "                                </tr>";
-
-                });
-                $("#expensesdataTable").html(html);
-
-            }
-
-
-
-        })
-    };
-    function loadAccount(){
-        $.ajax({
-            url:"AccountServlet?AccountMethod=loadAccount",
-            dataType:"json",
-            type:"post",
-            success:function (data) {
-                var jsondata=eval(data);
-                var html='';
-                $.each(jsondata,function (index) {
-                    //循环获取数据
-                    var accountname=jsondata[index].accountname;
-                    var balance=jsondata[index].balance;
-                    var uuid=jsondata[index].uuid;
-                    html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
-                        "                    data-target=\"#"+uuid+"\">\n" +
-                        accountname +
-                        "            </button>\n" +
-                        "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
-                        balance +
-                        "            </div>";
-
-
-                });
-                //加载右侧账户的option
-                $("#accountList").html(html);
-                var htmllist="";
-                $.each(data, function(index, item) {
-                    var accountname=data[index].accountname;
-                    var accountuid=data[index].uuid;
-                    //此处向select中循环绑定数据
-                    htmllist=htmllist+"<option value="+accountname+" id="+accountuid+">" + accountname+ "</option>"
-                });
-                $("#expensesAccount").html(htmllist)
-
-            },
-        });
-    };
-</script>
-
-
-
-
 <div class="container-fluid">
     <!--导航栏 -->
     <div class="row clearfix">
@@ -247,17 +112,6 @@
 
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
 
     <div class="container-fluid">
     <div class="row">
@@ -374,8 +228,6 @@
         </div>
 
             <!--    右侧的预测部分  -->
-
-
         <div class="col-md-4 column">
             <div id="calendar">
                 <form action="ExpensesServlet?ExpensesMethod=saveExpenses">
@@ -400,51 +252,6 @@
                     </div>
                 </form>
             </div>
-            <script>
-                $("#expensesTime").datetimepicker({
-
-                    format: "yyyy-mm-dd hh:ii:ss",
-                    language:'zh-CN',
-                    weekSrart:1,
-                    autoclose: true,
-                    todayBtn: true,
-                    pickerPosition: "bottom-left",
-                    todayHighlight:true
-                })
-            </script>
-            <script>
-                //点击按钮保存消费
-                $(document).ready(function () {
-                    $("#expensesSubmit").click(function () {
-                        var time=$("#expensesTime").val();
-                        var type=$("#expensesType").val();
-                        var amount=$("#expensesAmount").val();
-                        var account=$("#expensesAccount").val();
-                        var introduction="说明";
-                        var accountuuid= $(":selected","#expensesAccount").attr("id");
-                        alert(accountuuid);
-                        $.ajax({
-                            url:"ExpensesServlet?ExpensesMethod=saveExpenses",
-                            data:{expensesTime:time,expensesAccount:account,accountuuid:accountuuid,expensesAmount:amount,expensesType:type,introduction:introduction},
-                            success:function () {
-                                loadExpenses();
-                                loadAccount();
-
-                            },
-                            error:function () {
-                                alert("保存消费失败");
-                            }
-                        })
-
-                    })
-
-                })
-
-
-
-
-
-            </script>
             <ul class="nav nav-pills">
                 <li class="active">
                     <a href="#"> <span class="badge pull-right">42</span> Home</a>
@@ -461,13 +268,11 @@
                 <div class="progress-bar progress-success">
                 </div>
             </div>
-
         </div>
-
     </div>
     </div>
-
 
 </div>
+<script src="index.js"></script>
 </body>
 </html>
