@@ -1,5 +1,6 @@
 package dao;
 
+import Utils.FileWRUtils;
 import Utils.HibernateUtils;
 import entity.Account;
 import entity.Expenses;
@@ -20,6 +21,7 @@ public class ExpensesDao {
         transaction.commit();
         session.close();
     }
+
     public  void deleteExpenses(Expenses expenses){
         SessionFactory sessionFactory=HibernateUtils.getSessionFactory();
         Session session=sessionFactory.openSession();
@@ -28,6 +30,7 @@ public class ExpensesDao {
         transaction.commit();
         session.close();
     }
+
     public ArrayList<Expenses> loadExpenses(){
         //加载所有的支出
         ArrayList<Expenses> expenses = new ArrayList<>();
@@ -43,16 +46,28 @@ public class ExpensesDao {
             transaction.commit();
         }catch(Exception e){
 
-            System.out.println(e.getMessage());
+            System.out.println("异常"+e.getMessage());
 
         }finally {
 
             session.close();
-//            sessionFactory.close();
+//          sessionFactory.close();
         }
 
         return expenses;
     }
+
+    public void exportBills(String filename,ArrayList<Expenses> arrayList){
+
+        for(int i=0;i<arrayList.size();i++){
+            FileWRUtils.setObject((arrayList.get(i)));
+            FileWRUtils.setFilename(filename);
+            FileWRUtils.JfileWriter();
+            break;
+        }
+
+    }
+
     public void transExpenses(){
 
     }

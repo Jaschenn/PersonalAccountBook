@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class FileWRUtils {
     static String filename;
@@ -18,6 +19,7 @@ public class FileWRUtils {
         }
         data+="\n";
         System.out.println(data);
+
         try {
             FileWriter fileWriter = new FileWriter(filename,true);
             fileWriter.write(data);
@@ -25,8 +27,20 @@ public class FileWRUtils {
             fileWriter.close();
 
 
+
         }catch (Exception e){
             e.getMessage();
+        }finally {
+
+
+        }
+
+    }
+
+    public static void JfileWriter(ArrayList arrayList){
+        for (int i=0;i<arrayList.size();i++){
+            object=arrayList.get(i);
+            JfileWriter();
         }
 
     }
@@ -47,10 +61,10 @@ public class FileWRUtils {
         String line=null;
         String[] values;
         try{
-            bufferedReader=new BufferedReader(new FileReader(filename));
-            while ((line=bufferedReader.readLine())!=null){
+         //   bufferedReader=new BufferedReader(new FileReader(filename));
+          //  while ((line=bufferedReader.readLine())!=null){
 
-                values=line.trim().split(" ");  //从文件中读取的信息，每一行是一个对象的全部属性
+           //     values=line.trim().split(" ");  //从文件中读取的信息，每一行是一个对象的全部属性
                 /*
                 *
                 * 以下内容需要重新写
@@ -88,7 +102,7 @@ public class FileWRUtils {
 
 
 
-            }
+        //    }
 
 
         }catch (Exception e){

@@ -38,7 +38,7 @@ public class AccountDao {
         session.delete(account);
         transaction.commit();
         session.close();
-        sessionFactory.close();
+     //   sessionFactory.close();
 
     }
     public ArrayList<Account> loadAccount(){
@@ -67,4 +67,31 @@ public class AccountDao {
         return accounts;
     }
 
+    public void updateAccount(Account account){
+
+        SessionFactory sessionFactory =HibernateUtils.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(account);
+        transaction.commit();
+        session.close();
+
+    }
+
+    public Account getAccount(Account account){
+
+        SessionFactory sessionFactory=HibernateUtils.getSessionFactory();
+        Session session=sessionFactory.openSession();
+        Transaction transaction=session.beginTransaction();
+        System.out.println("====getAccount=====传入为："+account.getUuid());
+        Account resultAccount =session.get(Account.class,account.getUuid());
+
+        transaction.commit();
+
+        session.close();
+        //   sessionFactory.close();
+
+        return  resultAccount;
+
+    }
 }

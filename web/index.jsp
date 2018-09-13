@@ -56,70 +56,25 @@
                         "            </div>";
                     $("#accountList").html(html);
                 });
+                var htmllist="";
+                $.each(data, function(index, item) {
+                    var accountname=data[index].accountname;
+                    //此处向select中循环绑定数据
+                    htmllist=htmllist+"<option value="+accountname+">" + accountname+ "</option>"
+                });
+                $("#expensesAccount").html(htmllist);
+                loadExpenses();
+                loadAccount();
 
             },
         });
-        function loadAccount(){
-            $.ajax({
-                url:"AccountServlet?AccountMethod=loadAccount",
-                dataType:"json",
-                type:"post",
-                success:function (data) {
-                    var jsondata=eval(data);
-                    var html='';
-                    $.each(jsondata,function (index) {
-                        //循环获取数据
-                        var accountname=jsondata[index].accountname;
-                        var balance=jsondata[index].balance;
-                        var uuid=jsondata[index].uuid;
-                        html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
-                            "                    data-target=\"#"+uuid+"\">\n" +
-                            accountname +
-                            "            </button>\n" +
-                            "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
-                            balance +
-                            "            </div>";
-                        $("#accountList").html(html);
-                    });
 
-                },
-            });
-        };
-        function loadExpenses(){
-            $.ajax({
-                url:"ExpensesServlet?ExpensesMethod=loadExpenses",
-                dataType:"json",
-                type:"post",
-                success:function (data) {
-                    var jsondata=eval(data);
-                    var html='';
-                    $.each(jsondata,function (index) {
-                        //循环获取数据
-                        var amount=jsondata[index].amount;
-                        var time=jsondata[index].time;
-                        var type=jsondata[index].type;
-                        var account=jsondata[index].account;
-                        var introduction=jsondata[index].introduction;
-                        html=html+"  <tr>\n" +
-                            "                                    <td>"+amount+"</td>\n" +
-                            "                                    <td>"+time+"</td>\n" +
-                            "                                    <td>"+type+"</td>\n" +
-                            "                                    <td>"+account+"</td>\n" +
-                            "                                    <td>"+introduction+"</td>\n" +
-                            "                                </tr>";
-                        $("#expensesdataTable").append(html);
-                    });
-                }
-                
-                
-                
-            })
-        };
+
+
         $(document).ready(function () {
             loadExpenses();
         })
         $("#ButtonsubmitAccount").click(function () {
-            alert("添加账户");
             var accountName=$("#InputAccountName").val();
             var balance=$("#InputBalance").val();
          $.ajax({
@@ -128,7 +83,7 @@
              data:{InputAccountName:accountName,InputBalance:balance},
              success:function () {
                loadAccount();
-               $("#modal-container-15680").hidden;
+               $("#modal-container-15680").modal('hide');
              },
              error:function () {
                  alert("error");
@@ -136,8 +91,80 @@
          })
         });
     });
+    function loadExpenses(){
+        $.ajax({
+            url:"ExpensesServlet?ExpensesMethod=loadExpenses",
+            dataType:"json",
+            type:"post",
+            success:function (data) {
+                var jsondata=eval(data);
+                var html='';
+                $.each(jsondata,function (index) {
+                    //循环获取数据
+                    var amount=jsondata[index].amount;
+                    var time=jsondata[index].time;
+                    var type=jsondata[index].type;
+                    var account=jsondata[index].account;
+                    var introduction=jsondata[index].introduction;
+                    html=html+"  <tr>\n" +
+                        "                                    <td>"+amount+"</td>\n" +
+                        "                                    <td>"+time+"</td>\n" +
+                        "                                    <td>"+type+"</td>\n" +
+                        "                                    <td>"+account+"</td>\n" +
+                        "                                    <td>"+introduction+"</td>\n" +
+                        "                                </tr>";
 
+                });
+                $("#expensesdataTable").html(html);
+
+            }
+
+
+
+        })
+    };
+    function loadAccount(){
+        $.ajax({
+            url:"AccountServlet?AccountMethod=loadAccount",
+            dataType:"json",
+            type:"post",
+            success:function (data) {
+                var jsondata=eval(data);
+                var html='';
+                $.each(jsondata,function (index) {
+                    //循环获取数据
+                    var accountname=jsondata[index].accountname;
+                    var balance=jsondata[index].balance;
+                    var uuid=jsondata[index].uuid;
+                    html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
+                        "                    data-target=\"#"+uuid+"\">\n" +
+                        accountname +
+                        "            </button>\n" +
+                        "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
+                        balance +
+                        "            </div>";
+
+
+                });
+                //加载右侧账户的option
+                $("#accountList").html(html);
+                var htmllist="";
+                $.each(data, function(index, item) {
+                    var accountname=data[index].accountname;
+                    var accountuid=data[index].uuid;
+                    //此处向select中循环绑定数据
+                    htmllist=htmllist+"<option value="+accountname+" id="+accountuid+">" + accountname+ "</option>"
+                });
+                $("#expensesAccount").html(htmllist)
+
+            },
+        });
+    };
 </script>
+
+
+
+
 <div class="container-fluid">
     <!--导航栏 -->
     <div class="row clearfix">
@@ -150,10 +177,10 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="#">Link</a>
+                            <a href="ExpensesServlet?ExpensesMethod=exportBills">导出账单</a>
                         </li>
                         <li>
-                            <a href="#">Link</a>
+                            <a href="#">数据统计</a>
                         </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
@@ -220,6 +247,18 @@
 
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="container-fluid">
     <div class="row">
         <!--最左侧的账户部分 -->
@@ -283,12 +322,16 @@
                         <a href="#panel-77077" data-toggle="tab">转账</a>
                     </li>
                 </ul>
+
+                <!--折叠面板-->
                 <div class="tab-content">
+                    <!--收入面板-->
                     <div class="tab-pane active" id="panel-384292">
                         <p>
                           现在没有收入呀
                         </p>
                     </div>
+                    <!--支出面板-->
                     <div class="tab-pane" id="panel-701707">
                        <!--支出表格，循环添加 -->
                         <table class="table table-striped" id="expensesTable">
@@ -306,22 +349,33 @@
                             </tbody>
                         </table>
                     </div>
+                    <!--转账面板-->
                     <div class="tab-pane" id="panel-77077">
-                        <p>
-                            支持转账
-                        </p>
-                    </div>
+
+                        从 <select id="fromAccount" class="form-control">
+
+                        </select>
+
+                        到<select id="toAccount" class="form-control">
+
+                        </select>
+
                 </div>
             </div>
 
             <div class="alert alert-success alert-dismissable">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <h4>
-                    注意!
-                </h4> <strong>Warning!</strong> Best check yo self, you're not looking too good. <a href="#" class="alert-link">alert link</a>
+                   提示
+                </h4> <strong>Tips!</strong> 首先从左侧的添加账户开始，试着添加你的第一个账户。然后你可以在右侧记下你的第一笔账单，如果不出意外的外，你可以立刻在中央区域看到它 <a href="#" class="alert-link">alert link</a>
             </div>
         </div>
-        <!--    右侧的预测部分  -->
+
+        </div>
+
+            <!--    右侧的预测部分  -->
+
+
         <div class="col-md-4 column">
             <div id="calendar">
                 <form action="ExpensesServlet?ExpensesMethod=saveExpenses">
@@ -332,13 +386,15 @@
                         <span class="add-on"><i class="icon-th"></i></span>
                         </div>
                             <label for="expensesAccount">  账户：</label>
-                        <input  class="form-control" type="text" id="expensesAccount" name="expensesAccount">
+                        <select  class="form-control" type="text" id="expensesAccount" name="expensesAccount">
+                        </select>
                         <label for="expensesAmount">  金额：</label>
                         <input  class="form-control" type="number" id="expensesAmount" name="expensesAmount">
                         <label for="expensesType">  种类：</label>
                         <input  class="form-control" type="text" id="expensesType" name="expensesType">
                         <label for="expensesType">  注释：</label>
                         <input  class="form-control" type="text" id="introduction" name="introduction">
+                        <input type="hidden" id="accountuid">
                         <br>
                         <button class="btn-primary" type="button" id="expensesSubmit" name="expensesSubmit">let bills fly</button>
                     </div>
@@ -357,6 +413,7 @@
                 })
             </script>
             <script>
+                //点击按钮保存消费
                 $(document).ready(function () {
                     $("#expensesSubmit").click(function () {
                         var time=$("#expensesTime").val();
@@ -364,12 +421,15 @@
                         var amount=$("#expensesAmount").val();
                         var account=$("#expensesAccount").val();
                         var introduction="说明";
-
+                        var accountuuid= $(":selected","#expensesAccount").attr("id");
+                        alert(accountuuid);
                         $.ajax({
                             url:"ExpensesServlet?ExpensesMethod=saveExpenses",
-                            data:{expensesTime:time,expensesAccount:account,expensesAmount:amount,expensesType:type,introduction:introduction},
+                            data:{expensesTime:time,expensesAccount:account,accountuuid:accountuuid,expensesAmount:amount,expensesType:type,introduction:introduction},
                             success:function () {
-                                alert("保存消费成功");
+                                loadExpenses();
+                                loadAccount();
+
                             },
                             error:function () {
                                 alert("保存消费失败");
@@ -403,8 +463,11 @@
             </div>
 
         </div>
+
     </div>
     </div>
+
+
 </div>
 </body>
 </html>
