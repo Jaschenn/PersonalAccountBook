@@ -13,40 +13,9 @@ $("#expensesTime").datetimepicker({
 })
 //入口
 $(document).ready(function () {
-    //获取所有的账户
-    $.ajax({
-        url:"AccountServlet?AccountMethod=loadAccount",
-        dataType:"json",
-        type:"post",
-        success:function (data) {
-            var jsondata=eval(data);
-            var html='';
-            $.each(jsondata,function (index) {
-                //循环获取数据
-                var accountname=jsondata[index].accountname;
-                var balance=jsondata[index].balance;
-                var uuid=jsondata[index].uuid;
-                html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
-                    "                    data-target=\"#"+uuid+"\">\n" +
-                    accountname +
-                    "            </button>\n" +
-                    "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
-                    balance +
-                    "            </div>";
-                $("#accountList").html(html);
-            });
-            var htmllist="";
-            $.each(data, function(index, item) {
-                var accountname=data[index].accountname;
-                //此处向select中循环绑定数据
-                htmllist=htmllist+"<option value="+accountname+">" + accountname+ "</option>"
-            });
-            $("#expensesAccount").html(htmllist);
-            loadExpenses();
-            loadAccount();
-
-        },
-    });
+    //获取所有的账户，初始化页面
+    loadAccount();
+    loadExpenses();
 
     //添加账户按钮
     $("#ButtonsubmitAccount").click(function () {
@@ -71,7 +40,7 @@ $(document).ready(function () {
         var type=$("#expensesType").val();
         var amount=$("#expensesAmount").val();
         var account=$("#expensesAccount").val();
-        var introduction="说明";
+        var introduction=$("#introduction").val();
         var accountuuid= $(":selected","#expensesAccount").attr("id");
         alert(accountuuid);
         $.ajax({
@@ -88,6 +57,33 @@ $(document).ready(function () {
         })
 
     })
+
+    $("#submitTransfer").click(function () {
+        var fromAccount = $(":selected","#fromAccount").attr("id");
+        alert(fromAccount);
+        var toAccount = $(":selected","#toAccount").attr("id")
+        alert(toAccount);
+        var transferNumber = $("#transferNumber").val();
+        alert(transferNumber);
+        $.ajax({
+
+            url:"TransferServlet?TransferMethod=saveTransfer",
+            type:"post",
+            data:{fromAccount:fromAccount,toAccount:toAccount,transferNumber:transferNumber},
+            success:function () {
+                loadAccount();
+                loadExpenses();
+            },
+            error:function () {
+                alert("保存转账失败！");
+            }
+
+
+
+        })
+
+    })
+
 });
 
 
@@ -149,7 +145,7 @@ function loadAccount(){
 
 
             });
-            //加载右侧账户的option
+            //加载右侧账户和转账的option
             $("#accountList").html(html);
             var htmllist="";
             $.each(data, function(index, item) {
@@ -158,7 +154,9 @@ function loadAccount(){
                 //此处向select中循环绑定数据
                 htmllist=htmllist+"<option value="+accountname+" id="+accountuid+">" + accountname+ "</option>"
             });
-            $("#expensesAccount").html(htmllist)
+            $("#expensesAccount").html(htmllist);
+            $("#fromAccount").html(htmllist);
+            $("#toAccount").html(htmllist);
 
         },
     });

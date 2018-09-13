@@ -19,4 +19,12 @@
         <servlet-name>ExpensesServlet</servlet-name>
         <url-pattern>/ExpensesServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TransferServlet</servlet-name>
+        <servlet-class>servlet.TransferServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransferServlet</servlet-name>
+        <url-pattern>/TransferServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

@@ -165,11 +165,11 @@
         <!-- 中间的核心部分-->
         <div class="col-md-6 column">
             <div class="tabbable" id="tabs-832567" align="center">
-                <ul class="nav nav-tabs">
-                    <li>
+                <ul class="nav nav-pills nav-justified">
+                    <li class="active nav-tabs">
                         <a href="#panel-384292" data-toggle="tab">收入</a>
                     </li>
-                    <li class="active">
+                    <li class="nav-tabs">
                         <a href="#panel-701707" data-toggle="tab">支出</a>
                     </li>
                     <li class="nav-tabs">
@@ -184,6 +184,12 @@
                         <p>
                           现在没有收入呀
                         </p>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4>
+                                提示
+                            </h4> <strong>开源节流!</strong>  开源才是实现财务自由的王道，试着赚点小钱，相信我，这不是很难。 单击某一个账户可以隐藏该账户金额，双击可以在这个账户添加一笔收入。<a href="#" class="alert-link">alert link</a>
+                        </div>
                     </div>
                     <!--支出面板-->
                     <div class="tab-pane" id="panel-701707">
@@ -202,27 +208,40 @@
 
                             </tbody>
                         </table>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4>
+                                提示
+                            </h4> <strong>Tips!</strong> 首先从左侧的添加账户开始，试着添加你的第一个账户。然后你可以在右侧记下你的第一笔账单，如果不出意外的外，你可以立刻在中央区域看到它 <a href="#" class="alert-link">alert link</a>
+                        </div>
                     </div>
                     <!--转账面板-->
                     <div class="tab-pane" id="panel-77077">
+                        <div class="form-group">
+                             <label for="fromAccount" > 从</label>
+                            <select id="fromAccount" class="form-control" name="fromAccount">
 
-                        从 <select id="fromAccount" class="form-control">
+                                  </select>
+                            <label for="toAccount" >到</label>
+                            <select id="toAccount" class="form-control" name="toAccount">
 
-                        </select>
+                             </select>
+                            <label  for="transferNumber" >金额</label>
+                            <input class="form-control" type="number" id="transferNumber" name="transferNumber">
 
-                        到<select id="toAccount" class="form-control">
+                        </div>
+                        <button class="btn-primary" id="submitTransfer">让我的财务变的清晰</button>
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4>
+                                提示
+                            </h4> <strong>Tips!</strong> 合理的分配账户金额可以有效的帮助你节省资金，做好计划，利用右侧的预测面板来使自己的财务状况变的轻松 <a href="#" class="alert-link">alert link</a>
+                        </div>
 
-                        </select>
+                     </div>
+                 </div>
 
-                </div>
-            </div>
 
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4>
-                   提示
-                </h4> <strong>Tips!</strong> 首先从左侧的添加账户开始，试着添加你的第一个账户。然后你可以在右侧记下你的第一笔账单，如果不出意外的外，你可以立刻在中央区域看到它 <a href="#" class="alert-link">alert link</a>
-            </div>
         </div>
 
         </div>
