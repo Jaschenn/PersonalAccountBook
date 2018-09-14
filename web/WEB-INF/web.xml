@@ -27,4 +27,12 @@
         <servlet-name>TransferServlet</servlet-name>
         <url-pattern>/TransferServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>IncomeServlet</servlet-name>
+        <servlet-class>servlet.IncomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IncomeServlet</servlet-name>
+        <url-pattern>/IncomeServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

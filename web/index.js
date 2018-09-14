@@ -16,6 +16,7 @@ $(document).ready(function () {
     //获取所有的账户，初始化页面
     loadAccount();
     loadExpenses();
+    loadIncome();
 
     //添加账户按钮
     $("#ButtonsubmitAccount").click(function () {
@@ -56,8 +57,8 @@ $(document).ready(function () {
             }
         })
 
-    })
-
+    });
+    //保存转账按钮
     $("#submitTransfer").click(function () {
         var fromAccount = $(":selected","#fromAccount").attr("id");
         alert(fromAccount);
@@ -82,6 +83,64 @@ $(document).ready(function () {
 
         })
 
+    });
+    //双击账户按钮
+    // $("#accountList").delegate(".accountChange","dblclick",function () {
+    //     //此处获取不了值
+    //     var accountUid=$(this).id;
+    //     $("#addAccountModal").modal("show");
+    //     var IncomeSource=$("#IncomeSource").val();
+    //     var IncomeAmount=$("#IncomeAmount").val();
+    //     alert(accountUid);
+    //     alert(IncomeSource);
+    //     alert(IncomeAmount);
+    //     $.ajax({
+    //         url:"IncomeServlet?IncomeMethod=saveIncome",
+    //         type:"post",
+    //         data:{accountUid:accountUid,IncomeSource:IncomeSource,IncomeAmount:IncomeAmount},
+    //         success:function () {
+    //             loadAccount();
+    //             loadExpenses();
+    //         },
+    //         error:function () {
+    //             alert("保存收入失败！");
+    //         }
+    //
+    //
+    //     })
+    //
+    // })
+    $("#accountList").on("dblclick","button",function () {
+        var id=$(this).attr("name");
+        $("#addAccountModal").modal("show");
+        $("#ButtonsubmitUpdateAccount").click(function () {
+            var IncomeSource=$("#IncomeSource").val();
+            var IncomeAmount=$("#IncomeAmount").val();
+
+            $.ajax({
+                url:"IncomeServlet?IncomeMethod=saveIncome",
+                type:"post",
+                data:{accountUid:id,IncomeSource:IncomeSource,IncomeAmount:IncomeAmount},
+                success:function () {
+                    $("#addAccountModal").modal("hide");
+                    loadAccount();
+                    loadExpenses();
+                    loadIncome();
+                },
+                error:function () {
+                    alert("保存收入失败！");
+                }
+
+
+            })
+        })
+
+
+    })
+    $("#accountList").delegate(".linkmodal","click",function () {
+        $("div.accountList a").click(function () {
+            alert($(this).attr("id"));
+        })
     })
 
 });
@@ -135,13 +194,13 @@ function loadAccount(){
                 var accountname=jsondata[index].accountname;
                 var balance=jsondata[index].balance;
                 var uuid=jsondata[index].uuid;
-                html=html+" <button type=\"button\" class=\"btn btn-primary\" data-toggle=\"collapse\"\n" +
-                    "                    data-target=\"#"+uuid+"\">\n" +
+                html=html+" <button name=\""+uuid+"\" type=\"button\" class=\"accountChange btn btn-primary\" data-toggle=\"collapse\"\n" +
+                    "                    data-target=\"#"+uuid+"\" >\n" +
                     accountname +
                     "            </button>\n" +
-                    "            <div id=\""+uuid+"\" class=\"collapse in\">\n" +
+                    "            <div id=\""+uuid+"\" class=\"collapse in\">\n   <a  class=\"linkmodal\"data-toggle=\"modal\" data-target=\"#addAccountModal\">" +
                     balance +
-                    "            </div>";
+                    "     </a>       </div>";
 
 
             });
@@ -159,6 +218,40 @@ function loadAccount(){
             $("#toAccount").html(htmllist);
 
         },
+
     });
+   
+};
+
+//loadExpenses 函数
+function loadIncome(){
+    $.ajax({
+        url:"IncomeServlet?IncomeMethod=loadIncome",
+        dataType:"json",
+        type:"post",
+        success:function (data) {
+            var jsondata=eval(data);
+            var html='';
+            $.each(jsondata,function (index) {
+                //循环获取数据
+                var accountName=jsondata[index].accountName;
+                var time=jsondata[index].time;
+                var amount=jsondata[index].amount;
+                var source=jsondata[index].source;
+                html=html+"  <tr>\n" +
+                    "                                    <td>"+accountName+"</td>\n" +
+                    "                                    <td>"+time+"</td>\n" +
+                    "                                    <td>"+amount+"</td>\n" +
+                    "                                    <td>"+source+"</td>\n" +
+                    "                                </tr>";
+
+            });
+            $("#incomedataTable").html(html);
+
+        }
+
+
+
+    })
 };
 

@@ -26,7 +26,15 @@
 
     <script src="webLib/datetimepicker/bootstrap-datetimepicker.zh-CN.js"></script>
 
-    <link href="webLib/datetimepicker/bootstrap-datetimepicker.css">
+    <link href="webLib/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet">
+
+    <link href="webLib/jspanel.min.css" rel="stylesheet">
+
+    <script src="webLib/jspanel.min.js"></script>
+
+
+
+
 
 </head>
 <body>
@@ -151,7 +159,44 @@
 
             </div>
 
-            <div id="accountList">
+            <!--添加账户的modal层-->
+            <div class="modal fade" id="addAccountModal" role="dialog" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="addAccountModalLabel">
+                                要添加收入吗？
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="AccountServlet?AccountMethod=updateAccount" id="addAccountModalForm" method="post">
+                                <div class="form-group">
+                                    <label for="IncomeSource">收入来源</label>
+                                    <input  class="form-control" type="text" id="IncomeSource" name="IncomeSource">
+                                    <label for="IncomeAmount"> 收入金额 </label>
+                                    <input  class="form-control" type="number" id="IncomeAmount" name="IncomeAmount">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="ButtonsubmitUpdateAccount">保存</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <div id="accountList" name="accountList">
             <button type="button" class="btn btn-primary" data-toggle="collapse"
                     data-target="#alipay">
                账户
@@ -181,9 +226,20 @@
                 <div class="tab-content">
                     <!--收入面板-->
                     <div class="tab-pane active" id="panel-384292">
-                        <p>
-                          现在没有收入呀
-                        </p>
+                        <!--收入表格，循环添加 -->
+                        <table class="table table-striped" id="incomeTable">
+                            <thead>
+                            <tr>
+                                <th>账户</th>
+                                <th>时间</th>
+                                <th>金额</th>
+                                <th>收入来源</th>
+                            </tr>
+                            </thead>
+                            <tbody id="incomedataTable">
+
+                            </tbody>
+                        </table>
                         <div class="alert alert-success alert-dismissable">
                             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h4>
