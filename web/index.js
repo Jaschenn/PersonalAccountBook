@@ -43,7 +43,6 @@ $(document).ready(function () {
         var account=$("#expensesAccount").val();
         var introduction=$("#introduction").val();
         var accountuuid= $(":selected","#expensesAccount").attr("id");
-        alert(accountuuid);
         $.ajax({
             url:"ExpensesServlet?ExpensesMethod=saveExpenses",
             data:{expensesTime:time,expensesAccount:account,accountuuid:accountuuid,expensesAmount:amount,expensesType:type,introduction:introduction},
